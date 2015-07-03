@@ -27,6 +27,10 @@ public class TratarTeclas extends KeyAdapter{
 		}
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
 			p.setDx(p.getVelocidade());
+			if(p.getSprite().aparencia<42)
+				p.getSprite().aparencia+=6;
+			else
+				p.getSprite().aparencia=0;
 		}
 	}
 	public void keyReleased(KeyEvent e) {

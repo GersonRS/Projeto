@@ -20,7 +20,7 @@ public class Aplicacao extends JFrame {
 		setUndecorated(true);
 		Personagem p1;
 		try {
-			p1 = new Personagem(100, 100);
+			p1 = new Personagem(0, 228-54);
 			Render render = new Render(p1);
 			Logica logica = new Logica(p1, render);
 			render.addKeyListener(new TratarTeclas(p1));

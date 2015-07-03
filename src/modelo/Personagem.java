@@ -1,11 +1,8 @@
 package modelo;
 
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 public class Personagem {
 
@@ -16,18 +13,18 @@ public class Personagem {
 	private int tamanhoX;
 	private int tamanhoY;
 	private int velocidade = 10;
-	private BufferedImage imagem;
+	private int direcao;
 	private ArrayList<Item> inventario;
+	private Sprite sprite;
 	private int str, strMax = 10, def, defMax = 10, hp, hpMax = 10, mp,
 			mpMax = 5;
 
 	public Personagem(int posX, int posY) throws IOException {
 		this.posX = posX;
 		this.posY = posY;
-		imagem = ImageIO.read(this.getClass().getClassLoader()
-				.getResource("personagem.png"));
+		this.setSprite(new Sprite(0, 50, 50, 8, 6, "richter.png"));
 	}
-
+	
 	public void mexer() {
 
 		posX += dx;
@@ -53,10 +50,6 @@ public class Personagem {
 
 	public void setPosY(int posY) {
 		this.posY = posY;
-	}
-
-	public BufferedImage getImagem() {
-		return imagem;
 	}
 
 	public int getVelocidade() {
@@ -139,10 +132,6 @@ public class Personagem {
 		this.mpMax = mpMax;
 	}
 
-	public void setImagem(BufferedImage imagem) {
-		this.imagem = imagem;
-	}
-
 	public int getTamanhoX() {
 		return tamanhoX;
 	}
@@ -173,6 +162,22 @@ public class Personagem {
 
 	public void setDy(int dy) {
 		this.dy = dy;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public int getDirecao() {
+		return direcao;
+	}
+
+	public void setDirecao(int direcao) {
+		this.direcao = direcao;
 	}
 
 }

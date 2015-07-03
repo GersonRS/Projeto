@@ -47,7 +47,7 @@ public class Render extends JPanel{
 			posX=-6400+600;
 		}
 		graphics.drawImage(map.getMapa(), 0, 0, null);
-		graphics.drawImage(p1.getImagem(), p1.getPosX(), p1.getPosY(), null);
+		graphics.drawImage(p1.getSprite().sprites[p1.getSprite().aparencia], p1.getPosX(), p1.getPosY(), null);
 		g.drawRect(0, 0, getWidth(), getHeight());
 		g.drawImage(tela, posX, 0, null);
 		g.drawImage(hud, 0, 0, null);
