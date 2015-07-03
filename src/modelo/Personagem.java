@@ -1,8 +1,11 @@
 package modelo;
 
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Personagem {
 
@@ -14,18 +17,37 @@ public class Personagem {
 	private int tamanhoY;
 	private int velocidade = 10;
 	private int direcao;
+	private int animated;
+	private BufferedImage imagem;
 	private ArrayList<Item> inventario;
 	private Sprite sprite;
-	private int str, strMax = 10, def, defMax = 10, hp, hpMax = 10, mp,
-			mpMax = 5;
+	private int forca, defesa, hp = 113, hpMax = 113, mp = 50, mpMax = 50;
+	public boolean cima, baixo, direita, esquerda;
 
 	public Personagem(int posX, int posY) throws IOException {
 		this.posX = posX;
 		this.posY = posY;
+		this.setImagem(ImageIO.read(getClass().getClassLoader().getResource(
+				"richter.png")));
 		this.setSprite(new Sprite(0, 50, 50, 8, 6, "richter.png"));
 	}
-	
+
 	public void mexer() {
+
+		if (direita || esquerda) {
+			if (direita) {
+				dx = velocidade;
+				direcao = 0;
+			} else {
+				dx = -velocidade;
+				direcao = 1;
+			}
+			animated++;
+			if (animated > 8)
+				animated = 0;
+		} else {
+			dx = 0;
+		}
 
 		posX += dx;
 		posY += dy;
@@ -69,37 +91,21 @@ public class Personagem {
 	}
 
 	public int getStr() {
-		return str;
+		return forca;
 	}
 
 	public void setStr(int str) {
-		this.str = str;
-	}
-
-	public int getStrMax() {
-		return strMax;
-	}
-
-	public void setStrMax(int strMax) {
-		this.strMax = strMax;
+		this.forca = str;
 	}
 
 	public int getDef() {
-		return def;
+		return defesa;
 	}
 
 	public void setDef(int def) {
-		this.def = def;
+		this.defesa = def;
 	}
-
-	public int getDefMax() {
-		return defMax;
-	}
-
-	public void setDefMax(int defMax) {
-		this.defMax = defMax;
-	}
-
+	
 	public int getHp() {
 		return hp;
 	}
@@ -178,6 +184,22 @@ public class Personagem {
 
 	public void setDirecao(int direcao) {
 		this.direcao = direcao;
+	}
+
+	public BufferedImage getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(BufferedImage imagem) {
+		this.imagem = imagem;
+	}
+
+	public int getAnimated() {
+		return animated;
+	}
+
+	public void setAnimated(int animated) {
+		this.animated = animated;
 	}
 
 }

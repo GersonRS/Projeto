@@ -17,36 +17,53 @@ public class TratarTeclas extends KeyAdapter{
 		super.keyPressed(e);		
 		
 		if (e.getKeyCode()==KeyEvent.VK_UP) {
-			p.setDy(-p.getVelocidade());
+			p.cima=true;
+//			p.setDy(-p.getVelocidade());
 		}
 		if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			p.setDy(p.getVelocidade());
+			p.baixo=true;
+//			p.setDy(p.getVelocidade());
 		}
 		if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-			p.setDx(-p.getVelocidade());
+			p.esquerda=true;
+//			p.setDx(-p.getVelocidade());
+//			p.setDirecao(1);
+//			p.setAnimated(p.getAnimated()+1);
 		}
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-			p.setDx(p.getVelocidade());
-			if(p.getSprite().aparencia<42)
-				p.getSprite().aparencia+=6;
-			else
-				p.getSprite().aparencia=0;
+			p.direita=true;
+//			p.setDx(p.getVelocidade());
+//			p.setDirecao(0);
+//			p.setAnimated(p.getAnimated()+1);
+			
+			
+//			if(p.getSprite().aparencia<42)
+//				p.getSprite().aparencia+=6;
+//			else
+//				p.getSprite().aparencia=0;
 		}
+		if(p.getAnimated()>=8)
+			p.setAnimated(0);
 	}
+	
 	public void keyReleased(KeyEvent e) {
 		super.keyReleased(e);
 		
 		if (e.getKeyCode()==KeyEvent.VK_UP) {
-			p.setDy(0);
+			p.cima=false;
+//			p.setDy(0);
 		}
 		if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			p.setDy(0);
+			p.baixo=false;
+//			p.setDy(0);
 		}
 		if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-			p.setDx(0);
+			p.esquerda=false;
+//			p.setDx(0);
 		}
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-			p.setDx(0);
+			p.direita=false;
+//			p.setDx(0);
 		}
 	}
 }

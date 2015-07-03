@@ -38,6 +38,10 @@ public class Logica extends Thread {
 
 	private void tratarJogo() {
 		moverJogador();
+		if(p1.getAnimated()==7){
+			if(!(p1.getHp()<=0))
+				p1.setHp(p1.getHp()-10);
+		}
 	}
 
 	private void moverJogador() {

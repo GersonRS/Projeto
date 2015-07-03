@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import modelo.Personagem;
 
-public class Render extends JPanel{
+public class Render extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private BufferedImage tela = new BufferedImage(6400, 320,
@@ -38,31 +38,43 @@ public class Render extends JPanel{
 
 	public void paint(Graphics g) {
 
-		if(p1.getPosX()>=300 && p1.getPosX()<=6100)
+		Graphics2D g2d = (Graphics2D) g;
+		
+		if (p1.getPosX() >= 300 && p1.getPosX() <= 6100)
 			posX = posX - p1.getDx();
-		if(posX>=0){
-			posX=0;
+		if (posX >= 0) {
+			posX = 0;
 		}
-		if(posX<=-6400+600){
-			posX=-6400+600;
+		if (posX <= -6400 + 600) {
+			posX = -6400 + 600;
 		}
 		graphics.drawImage(map.getMapa(), 0, 0, null);
-		graphics.drawImage(p1.getSprite().sprites[p1.getSprite().aparencia], p1.getPosX(), p1.getPosY(), null);
-		g.drawRect(0, 0, getWidth(), getHeight());
-		g.drawImage(tela, posX, 0, null);
-		g.drawImage(hud, 0, 0, null);
+
+		graphics.drawImage((p1.getDirecao() == 1 ? imageFlip(p1.getImagem())
+				: p1.getImagem()), p1.getPosX(), p1.getPosY(),
+				p1.getPosX() + 50, p1.getPosY() + 50,
+				(int) (p1.getAnimated() % 8) * 50, 0,
+				(int) (p1.getAnimated() % 8 * 50) + 50, 0 + 50, null);
+		g2d.drawRect(0, 0, getWidth(), getHeight());
+		g2d.drawImage(tela, posX, 0, null);
+		g2d.setColor(Color.GREEN);
+		g2d.fillRect(67, 45, (p1.getHp() * 75) / p1.getHpMax(), 6);
+		g2d.setColor(Color.BLUE);
+		g2d.fillRect(67, 54, (p1.getMp() * 58) / p1.getMpMax(), 6);
+		g2d.drawImage(hud, 0, 0, null);
 	}
 
 	public BufferedImage imageFlip(BufferedImage img) {
-	    int w = img.getWidth();    
-	    int h = img.getHeight();    
-	    BufferedImage dimg = new BufferedImage(w, h, img.getType());    
-	    Graphics2D g = dimg.createGraphics();    
-	    g.drawImage(img, 0, 0, w, h, w, 0, 0, h, null);    
-	    g.dispose();    
-	    return dimg;   
+		int w = img.getWidth();
+		int h = img.getHeight();
+		BufferedImage dimg = new BufferedImage(w, h,
+				BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = (Graphics2D) dimg.getGraphics();
+		g.drawImage(img, 0, 0, w, h, w, 0, 0, h, null);
+		g.dispose();
+		return dimg;
 	}
-	
+
 	public Mapa getMap() {
 		return map;
 	}
