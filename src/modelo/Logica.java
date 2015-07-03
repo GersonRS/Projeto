@@ -2,36 +2,31 @@ package modelo;
 
 import java.io.IOException;
 
-import view.Mapa;
+import view.Render;
 
 public class Logica extends Thread {
 
 	private Personagem p1;
-	private Controle controle;
+	private Render render;
 	private CarregarDados carregarDados;
-	private Mapa m;
-	private final int CIMA=0,DIREITA=1,BAIXO=2,ESQUERDA=3;
+	private int matriz[][];
 
-
-	public Logica(Personagem p, Mapa m) {
+	public Logica(Personagem p, Render r) throws IOException {
 		this.p1 = p;
-		this.m = m;
+		this.render = r;
 		this.carregarDados = new CarregarDados();
-		this.controle = p.getControle();
-		try {
-			m.montarMapa(carregarDados.carregarMatriz(400, 20,
-					"fase1-camada1.txt"));
-			m.montarMapa(carregarDados.carregarMatriz(400, 20,
-					"fase1-camada2.txt"));
-			m.montarMapa(carregarDados.carregarMatriz(400, 20,
-					"fase1-camada3.txt"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		this.matriz = carregarDados
+				.carregarMatriz(400, 20, "fase1-camada2.txt");
+		render.getMap().montarMapa(
+				carregarDados.carregarMatriz(400, 20, "fase1-camada1.txt"));
+		render.getMap().montarMapa(matriz);
+		render.getMap().montarMapa(
+				carregarDados.carregarMatriz(400, 20, "fase1-camada3.txt"));
 	}
 
 	public void run() {
 		while (true) {
+			render.repaint();
 			tratarJogo();
 			try {
 				Thread.sleep(100);
@@ -48,20 +43,7 @@ public class Logica extends Thread {
 	private void moverJogador() {
 		int posXAnterior = p1.getPosX();
 		int posYAnterior = p1.getPosY();
-
-		if (controle.isBotaoCima()) {
-			p1.andar(CIMA);
-		}
-		if (controle.isBotaoDireita()) {
-			p1.andar(DIREITA);
-		}
-		if (controle.isBotaoBaixo()) {
-			p1.andar(BAIXO);
-		}
-		if (controle.isBotaoEsquerda()) {
-			p1.andar(ESQUERDA);
-		}
-
+		p1.mexer();
 		tratarSairTela(posXAnterior, posYAnterior);
 		tratarColisao(posXAnterior, posYAnterior);
 
@@ -73,10 +55,10 @@ public class Logica extends Thread {
 
 	private void tratarSairTela(int posX, int posY) {
 
-		if ((p1.getPosX() < 0) || ((p1.getPosX() + 16) > 208)) {
+		if ((p1.getPosX() < 0) || ((p1.getPosX() + 16) > 6400)) {
 			p1.setPosX(posX);
 		}
-		if ((p1.getPosY() < 0) || ((p1.getPosY() + 16) > 208)) {
+		if ((p1.getPosY() < 0) || ((p1.getPosY() + 16) > 228)) {
 			p1.setPosY(posY);
 		}
 	}

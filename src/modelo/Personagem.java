@@ -10,42 +10,29 @@ import javax.imageio.ImageIO;
 public class Personagem {
 
 	private int posX;
+	private int dx;
+	private int dy;
 	private int posY;
 	private int tamanhoX;
 	private int tamanhoY;
-	private int velocidade = 5;
+	private int velocidade = 10;
 	private BufferedImage imagem;
-	private Controle controle;
 	private ArrayList<Item> inventario;
-	private int str, strMax = 10, def, defMax = 10, hp, hpMax = 10, mp, mpMax = 5;
-	
-	public Personagem(int posX, int posY, Controle controle) {
+	private int str, strMax = 10, def, defMax = 10, hp, hpMax = 10, mp,
+			mpMax = 5;
+
+	public Personagem(int posX, int posY) throws IOException {
 		this.posX = posX;
 		this.posY = posY;
-		this.controle = controle;
-		try {
-			imagem = ImageIO.read(this.getClass().getClassLoader()
-					.getResource("personagem.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		imagem = ImageIO.read(this.getClass().getClassLoader()
+				.getResource("personagem.png"));
 	}
 
-	public void andar(int novaDirecao) {
-		switch (novaDirecao) {
-		case 0:
-			posY -= (velocidade);
-			break;
-		case 1:
-			posX += (velocidade);
-			break;
-		case 2:
-			posY += (velocidade);
-			break;
-		case 3:
-			posX -= (velocidade);
-			break;
-		}
+	public void mexer() {
+
+		posX += dx;
+		posY += dy;
+
 	}
 
 	public Rectangle colisao() {
@@ -70,14 +57,6 @@ public class Personagem {
 
 	public BufferedImage getImagem() {
 		return imagem;
-	}
-
-	public Controle getControle() {
-		return controle;
-	}
-
-	public void setControle(Controle controle) {
-		this.controle = controle;
 	}
 
 	public int getVelocidade() {
@@ -179,4 +158,21 @@ public class Personagem {
 	public void setTamanhoY(int tamanhoY) {
 		this.tamanhoY = tamanhoY;
 	}
+
+	public int getDx() {
+		return dx;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
+	}
+
+	public int getDy() {
+		return dy;
+	}
+
+	public void setDy(int dy) {
+		this.dy = dy;
+	}
+
 }

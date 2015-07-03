@@ -3,45 +3,46 @@ package controle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import modelo.Controle;
+import modelo.Personagem;
 
 public class TratarTeclas extends KeyAdapter{
-	Controle controle;
 	
-	public TratarTeclas(Controle c) {
-		this.controle = c;
+	Personagem p;
+	
+	public TratarTeclas(Personagem p) {
+		this.p = p;
 	}
 
 	public void keyPressed(KeyEvent e) {
 		super.keyPressed(e);		
 		
 		if (e.getKeyCode()==KeyEvent.VK_UP) {
-			controle.setBotaoCima(true);
+			p.setDy(-p.getVelocidade());
 		}
 		if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			controle.setBotaoBaixo(true);
+			p.setDy(p.getVelocidade());
 		}
 		if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-			controle.setBotaoEsquerda(true);
+			p.setDx(-p.getVelocidade());
 		}
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-			controle.setBotaoDireita(true);
+			p.setDx(p.getVelocidade());
 		}
 	}
 	public void keyReleased(KeyEvent e) {
 		super.keyReleased(e);
 		
 		if (e.getKeyCode()==KeyEvent.VK_UP) {
-			controle.setBotaoCima(false);
+			p.setDy(0);
 		}
 		if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-			controle.setBotaoBaixo(false);
+			p.setDy(0);
 		}
 		if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-			controle.setBotaoEsquerda(false);
+			p.setDx(0);
 		}
 		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-			controle.setBotaoDireita(false);
+			p.setDx(0);
 		}
 	}
 }
