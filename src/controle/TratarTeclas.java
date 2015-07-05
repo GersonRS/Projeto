@@ -18,6 +18,7 @@ public class TratarTeclas extends KeyAdapter{
 		
 		if (e.getKeyCode()==KeyEvent.VK_UP) {
 			p.cima=true;
+			p.pulo=true;
 //			p.setDy(-p.getVelocidade());
 		}
 		if (e.getKeyCode()==KeyEvent.VK_DOWN) {
@@ -51,6 +52,7 @@ public class TratarTeclas extends KeyAdapter{
 		
 		if (e.getKeyCode()==KeyEvent.VK_UP) {
 			p.cima=false;
+//			p.pulo=false;
 //			p.setDy(0);
 		}
 		if (e.getKeyCode()==KeyEvent.VK_DOWN) {

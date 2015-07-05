@@ -1,85 +1,65 @@
 package modelo;
 
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
+public class Personagem extends Entidade{
 
-public class Personagem {
-
-	private int posX;
-	private int dx;
-	private int dy;
-	private int posY;
-	private int tamanhoX;
-	private int tamanhoY;
-	private int velocidade = 10;
-	private int direcao;
-	private int animated;
-	private BufferedImage imagem;
+	private String nome;
+	private int status;
 	private ArrayList<Item> inventario;
-	private Sprite sprite;
 	private int forca, defesa, hp = 113, hpMax = 113, mp = 50, mpMax = 50;
-	public boolean cima, baixo, direita, esquerda;
+	public boolean cima=true, baixo, direita, esquerda, pulo;
+	private int aceleracao = 8;
+	private boolean batendo;
 
-	public Personagem(int posX, int posY) throws IOException {
-		this.posX = posX;
-		this.posY = posY;
-		this.setImagem(ImageIO.read(getClass().getClassLoader().getResource(
-				"richter.png")));
-		this.setSprite(new Sprite(0, 50, 50, 8, 6, "richter.png"));
+	public Personagem(int posX, int posY, String nome) throws IOException {
+		super(posX, posY, "richter.png");
+		this.setNome(nome);
+		this.velocidade = 8;
+		this.tamanhoX=16;
+		this.tamanhoY=48;
+		this.status=0;
 	}
 
 	public void mexer() {
 
-		if (direita || esquerda) {
-			if (direita) {
-				dx = velocidade;
-				direcao = 0;
+		if(batendo){
+			status=3;
+		}else{
+			if (direita || esquerda) {
+				if (direita) {
+					dx = velocidade;
+					direcao = 0;
+				} else {
+					dx = -velocidade;
+					direcao = 1;
+				}
+				animated++;
+				if (animated > 8)
+					animated = 0;
 			} else {
-				dx = -velocidade;
-				direcao = 1;
+				dx = 0;
 			}
-			animated++;
-			if (animated > 8)
-				animated = 0;
-		} else {
-			dx = 0;
+			
+			if(pulo)
+			{
+				aceleracao-=1;
+				posY-=aceleracao*4;
+				if(aceleracao<-8){
+					aceleracao=8;
+					pulo=false;
+				}
+			}
+			
+			posX += dx;
+			posY += dy;
 		}
-
-		posX += dx;
-		posY += dy;
-
 	}
 
-	public Rectangle colisao() {
-		return new Rectangle(posX, posY, 14, 14);
-	}
-
-	public int getPosX() {
-		return posX;
-	}
-
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-
-	public int getPosY() {
-		return posY;
-	}
-
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
-
-	public int getVelocidade() {
-		return velocidade;
-	}
-
-	public void setVelocidade(int velocidade) {
-		this.velocidade = velocidade;
+	public Rectangle rec(){
+		return new Rectangle(posX+16,posY,tamanhoX,tamanhoY);
 	}
 
 	public ArrayList<Item> getInventario() {
@@ -138,68 +118,27 @@ public class Personagem {
 		this.mpMax = mpMax;
 	}
 
-	public int getTamanhoX() {
-		return tamanhoX;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setTamanhoX(int tamanhoX) {
-		this.tamanhoX = tamanhoX;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
-	public int getTamanhoY() {
-		return tamanhoY;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setTamanhoY(int tamanhoY) {
-		this.tamanhoY = tamanhoY;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public int getDx() {
-		return dx;
+	public boolean isBatendo() {
+		return batendo;
 	}
 
-	public void setDx(int dx) {
-		this.dx = dx;
+	public void setBatendo(boolean batendo) {
+		this.batendo = batendo;
 	}
-
-	public int getDy() {
-		return dy;
-	}
-
-	public void setDy(int dy) {
-		this.dy = dy;
-	}
-
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public int getDirecao() {
-		return direcao;
-	}
-
-	public void setDirecao(int direcao) {
-		this.direcao = direcao;
-	}
-
-	public BufferedImage getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(BufferedImage imagem) {
-		this.imagem = imagem;
-	}
-
-	public int getAnimated() {
-		return animated;
-	}
-
-	public void setAnimated(int animated) {
-		this.animated = animated;
-	}
-
 }
