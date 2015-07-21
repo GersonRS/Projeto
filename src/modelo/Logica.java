@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
 import view.Render;
 
 public class Logica extends Thread {
@@ -18,13 +16,17 @@ public class Logica extends Thread {
 	private int gravidade = 4;
 	private ArrayList<Rectangle> rectangles;
 	private ArrayList<Monstro> monstros;
+	private ArrayList<Item> itens;
+	private int numMonstros = 5;
+	
 
-	public Logica(Personagem p, ArrayList<Monstro> m, Render r) throws IOException {
+	public Logica(Personagem p, ArrayList<Monstro> m, Render r, ArrayList<Item> i2) throws IOException {
 		this.p1 = p;
+		this.itens = i2;
 		this.render = r;
 		this.rectangles = new ArrayList<Rectangle>();
 		this.monstros = m;
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < numMonstros; i++) {
 			monstros.add(new Monstro((new Random().nextInt(50)*16)+700, 226-45));
 		}
 		this.carregarDados = new CarregarDados();
@@ -47,26 +49,30 @@ public class Logica extends Thread {
 
 	public void run() {
 		while (true) {
-			render.repaint();
-			tratarJogo();
 			try {
+				tratarJogo();
+				render.repaint();
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private void tratarJogo() {
+	private void tratarJogo() throws IOException {
 		moverJogador();
 		moverMonstros();
 		tratarColisaoPersonagemMonstro();
+		tratarColisaoPersonagemItem();
 		tratamentoGeral();
 	}
 
-	private void tratamentoGeral() {
+	private void tratamentoGeral() throws IOException {
 		for (int i = 0; i < monstros.size(); i++) {
 			if(monstros.get(i).getHp()<=0){
+				itens.add(new Item(monstros.get(i).getPosX(), monstros.get(i).getPosY(), "item.png"));
 				monstros.remove(i);
 			}
 		}
@@ -116,6 +122,17 @@ public class Logica extends Thread {
 			if (monstros.get(i).rec().intersects(p1.rec())) {
 				p1.setHp(p1.getHp()-5);
 				monstros.get(i).setHp(monstros.get(i).getHp()-10);
+			}
+		}
+	}
+	
+	private void tratarColisaoPersonagemItem(){
+		for (int i = 0; i < itens.size(); i++) {
+			if (itens.get(i).rec().intersects(p1.rec())) {
+				itens.get(i).setPosX(32*p1.getInventario().size()+32);
+				itens.get(i).setPosY(60);
+				p1.getInventario().add(itens.get(i));
+				itens.remove(i);
 			}
 		}
 	}

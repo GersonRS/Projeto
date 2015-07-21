@@ -21,6 +21,7 @@ public class Personagem extends Entidade{
 		this.tamanhoX=16;
 		this.tamanhoY=48;
 		this.status=0;
+		this.inventario = new ArrayList<Item>();
 	}
 
 	public void mexer() {
@@ -91,6 +92,8 @@ public class Personagem extends Entidade{
 	}
 
 	public void setHp(int hp) {
+		if(hp>hpMax)
+			hp=hpMax;
 		this.hp = hp;
 	}
 

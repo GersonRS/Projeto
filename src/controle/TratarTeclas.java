@@ -7,7 +7,7 @@ import modelo.Personagem;
 
 public class TratarTeclas extends KeyAdapter{
 	
-	Personagem p;
+	private Personagem p;
 	
 	public TratarTeclas(Personagem p) {
 		this.p = p;

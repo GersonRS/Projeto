@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import modelo.Item;
 import modelo.Monstro;
 import modelo.Personagem;
 
@@ -26,9 +27,14 @@ public class Render extends JPanel {
 	private int posX;
 	private BufferedImage hud;
 	private ArrayList<Monstro> monstros;
+	private ArrayList<Item> inventario;
+	private ArrayList<Item> itens;
 
-	public Render(Personagem p1, ArrayList<Monstro> m) throws IOException {
+	public Render(Personagem p1, ArrayList<Monstro> m, ArrayList<Item> i)
+			throws IOException {
 		this.p1 = p1;
+		this.inventario = p1.getInventario();
+		this.itens = i;
 		this.monstros = m;
 		this.map = new Mapa();
 		graphics = (Graphics2D) tela.getGraphics();
@@ -81,6 +87,14 @@ public class Render extends JPanel {
 								.get(i).getAnimated() % 8 * 29) + 30, 0 + 45,
 						null);
 			}
+			for (int i = 0; i < itens.size(); i++) {
+				graphics.drawImage(itens.get(i).getImagem(), itens.get(i)
+						.getPosX(), itens.get(i).getPosY(), itens.get(i)
+						.getPosX() + 32, itens.get(i).getPosY() + 32,
+						(int) (itens.get(i).getAnimated() % 3) * 32, 0,
+						(int) (itens.get(i).getAnimated() % 3 * 32) + 32,
+						0 + 32, null);
+			}
 			graphics.drawImage(
 					(p1.getDirecao() == 1 ? imageFlip(p1.getImagem()) : p1
 							.getImagem()), p1.getPosX(), p1.getPosY(), p1
@@ -88,10 +102,6 @@ public class Render extends JPanel {
 							.getAnimated() % 8) * 50, 0, (int) (p1
 							.getAnimated() % 8 * 50) + 50, 0 + 50, null);
 			g2d.setColor(Color.BLACK);
-			// graphics.setColor(Color.WHITE);
-			// graphics.drawRect((int)p1.rec().getX(),
-			// (int)p1.rec().getY(),(int)p1.rec().getWidth(),
-			// (int)p1.rec().getHeight());
 			g2d.drawRect(0, 0, getWidth(), getHeight());
 			g2d.drawImage(tela, posX, 0, null);
 			g2d.setColor(Color.GRAY);
@@ -104,6 +114,12 @@ public class Render extends JPanel {
 			g2d.setColor(Color.GRAY);
 			g2d.drawString(p1.getNome(), 100, 30);
 			g2d.drawImage(hud, 0, 0, null);
+			for (int i = 0; i < inventario.size(); i++) {
+				g2d.drawImage(inventario.get(i).getImagem(), (inventario.get(i)
+						.getPosX()), inventario.get(i).getPosY(),
+						(inventario.get(i).getPosX()) + 32,
+						inventario.get(i).getPosY() + 32, 0, 0, 32, 32, null);
+			}
 		}
 	}
 
